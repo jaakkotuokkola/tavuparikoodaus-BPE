@@ -37,7 +37,6 @@ typedef struct {
     size_t length;
 } InputSeq;
 
-// pairs are also handled with token ids of the two tokens
 typedef struct {
     int first, second;
     int count;
