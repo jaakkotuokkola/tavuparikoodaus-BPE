@@ -12,10 +12,7 @@
        jos nämä tokenit esiintyvät syötteessä tarpeeksi).
      Algoritmi toistaa yhdistämistä, kunnes
      kunnes parien esiintymistiheys on alle 2 tai sanaston koko saavuttaa
-     rajan (esim. 50 000). Samantapaisia algoritmeja käytetään LLM kielimallien
-     koulutuksessa */
-
-// Simple BPE while learning C
+     rajan (esim. 50 000). */
 
 #define MAX_VOCAB_SIZE 50000
 
