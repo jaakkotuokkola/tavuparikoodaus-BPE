@@ -10,10 +10,10 @@
       (esim. sana "jossain" voi muodostaa tokeneita,
        kuten "jo", "ss", "ain", 
        jos nämä tokenit esiintyvät syötteessä tarpeeksi).
-     Algoritmi toistaa yhdistämistä, kunnes
-     kunnes parien esiintymistiheys on alle 2 tai sanaston koko saavuttaa
-     rajan (esim. 50 000). Samantapaisia algoritmeja käytetään LLM kielimallien
-     koulutuksessa */
+     Algoritmi toistaa yhdistämistä,
+     kunnes pareja ei löydetä tai sanaston koko saavuttaa
+     rajan (esim. 50 000).
+*/
 
 // Simple BPE while learning C
 
@@ -37,7 +37,8 @@ typedef struct {
     size_t length;
 } InputSeq;
 
-// pairs are also handled with token ids of the two tokens
+// pair structure
+// TODO: hash ?
 typedef struct {
     int first, second;
     int count;
@@ -102,7 +103,7 @@ InputSeq *create_input_seq(const char *text, Vocabulary *vocab) {
 }
 
 // find most frequent adjacent token pair using the dynamic array
-// linear search, note; do hash table later
+// linear search, TODO; try hash, or something else
 typedef struct { int first, second, count; } PairStat;
 PairStat find_most_frequent_pair(InputSeq *seq) {
     PairCount *counts = NULL;
@@ -184,7 +185,6 @@ void free_vocab(Vocabulary *vocab) {
     free(vocab);
 }
 
-// for debugging
 void print_input_seq(InputSeq *seq, Vocabulary *vocab) {
     for (size_t i = 0; i < seq->length; i++) {
         printf("%s ", vocab->tokens[seq->ids[i]].value);
@@ -218,7 +218,8 @@ int main() {
         PairStat max = find_most_frequent_pair(seq);
 
     // stop when no more pairs with frequency over 1
-    // real tokenization probably uses a higher threshold to avoid noise
+    // I'd imagine some use cases probably use a higher threshold to avoid noise
+    // but noise can always be extracted after tokenization, depends on the use case.
         if (max.count < 2) break;
 
         size_t len = strlen(vocab->tokens[max.first].value) + strlen(vocab->tokens[max.second].value) + 1;
