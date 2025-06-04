@@ -217,9 +217,6 @@ int main() {
     while (vocab->tok_count < MAX_VOCAB_SIZE) {
         PairStat max = find_most_frequent_pair(seq);
 
-    // stop when no more pairs with frequency over 1
-    // I'd imagine some use cases probably use a higher threshold to avoid noise
-    // but noise can always be extracted after tokenization, depends on the use case.
         if (max.count < 2) break;
 
         size_t len = strlen(vocab->tokens[max.first].value) + strlen(vocab->tokens[max.second].value) + 1;
