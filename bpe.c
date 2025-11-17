@@ -2,21 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-// Yksinkertainen tavuparikoodaus toteutus.
-/*   Tavuparikoodaus (Byte Pair Encoding, BPE): 
-     Algoritmi, joka pakkaa tekstiä yhdistämällä toistuvasti yleisimmät
-     vierekkäiset merkkiparit uusiksi tokeneiksi.
-     Aloittaa yksittäisistä merkeistä ja luo "subword"-yksiköitä
-      (esim. sana "jossain" voi muodostaa tokeneita,
-       kuten "jo", "ss", "ain", 
-       jos nämä tokenit esiintyvät syötteessä tarpeeksi).
-     Algoritmi toistaa yhdistämistä,
-     kunnes pareja ei löydetä tai sanaston koko saavuttaa
-     rajan (esim. 50 000).
-*/
-
-// Simple BPE while learning C
-
 #define MAX_VOCAB_SIZE 50000
 
 typedef struct {
@@ -37,25 +22,19 @@ typedef struct {
     size_t length;
 } InputSeq;
 
-// pair structure
-// TODO: hash ?
 typedef struct {
     int first, second;
     int count;
 } PairCount;
 
-// find token id in vocab
 int vocab_find(Vocabulary *vocab, const char *val) {
     for (size_t i = 0; i < vocab->tok_count; i++) {
-    // compare val with each token's value
         if (strcmp(vocab->tokens[i].value, val) == 0) return vocab->tokens[i].id;
     }
     return -1;
 }
 
-// add a new token to vocab
 int vocab_add(Vocabulary *vocab, const char *val) {
-        //resize
     if (vocab->tok_count >= vocab->v_capacity) {
         vocab->v_capacity *= 2;
         Token *new_tokens = realloc(vocab->tokens, vocab->v_capacity * sizeof(Token));
@@ -102,8 +81,7 @@ InputSeq *create_input_seq(const char *text, Vocabulary *vocab) {
     return seq;
 }
 
-// find most frequent adjacent token pair using the dynamic array
-// linear search, TODO; try hash, or something else
+// find most frequent adjacent token pair
 typedef struct { int first, second, count; } PairStat;
 PairStat find_most_frequent_pair(InputSeq *seq) {
     PairCount *counts = NULL;
@@ -126,7 +104,6 @@ PairStat find_most_frequent_pair(InputSeq *seq) {
             }
         }
         if (!found) {
-                //resize
             if (count_size >= count_capacity) {
                 count_capacity *= 2;
                 PairCount *new_counts = realloc(counts, count_capacity * sizeof(PairCount));
