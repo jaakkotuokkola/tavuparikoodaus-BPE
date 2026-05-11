@@ -30,6 +30,4 @@ Final tokens: aaab c d aaab d c
     Token 6: aaab
 
 Final tokenized input: [6,2,3,6,3,2]
-(as a sequence of token IDs) 
-
 ```
