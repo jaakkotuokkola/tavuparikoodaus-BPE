@@ -44,13 +44,11 @@ int vocab_add(Vocabulary *vocab, const char *val) {
         }
         vocab->tokens = new_tokens;
     }
-    // copy the string value
     char *new_value = strdup(val);
     if (!new_value) {
         fprintf(stderr, "malloc fail\n");
         exit(1);
     }
-    // assign the new token and increment the count
     vocab->tokens[vocab->tok_count].value = new_value;
     vocab->tokens[vocab->tok_count].id = vocab->tok_count;
     return vocab->tok_count++;
@@ -70,11 +68,9 @@ InputSeq *create_input_seq(const char *text, Vocabulary *vocab) {
         exit(1);
     }
     seq->length = strlen(text);
-    // split text into tokens by single characters
     for (size_t i = 0; i < seq->length; i++) {
         char tmp[2] = {text[i], 0};
         int tid = vocab_find(vocab, tmp);
-    // only 1 token per unique character
         if (tid == -1) tid = vocab_add(vocab, tmp);
         seq->ids[i] = tid;
     }
@@ -184,7 +180,6 @@ int main() {
         free(vocab);
         exit(1);
     }
-    // initialize the text as a sequence of tokens
     InputSeq *seq = create_input_seq(text, vocab);
 
     printf("Original: ");
