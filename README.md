@@ -28,6 +28,4 @@ Final tokens: aaab c d aaab d c
     Token 4: aa
     Token 5: aaa
     Token 6: aaab
-
-Final tokenized input: [6,2,3,6,3,2]
 ```
