@@ -3,7 +3,7 @@
 Byte Pair Encoding is a text compression and tokenization algorithm. 
 It repeatedly merges the most frequent adjacent pairs of tokens (starting from single characters) to build a vocabulary of subword units.
 
-This is a simple implementation I made while learning to program in C. For typical implementations of the algorithm, using hash tables would be faster.
+This is a simple implementation I made while learning to program in C.
 
 ### Example
 
